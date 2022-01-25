@@ -155,6 +155,17 @@ int counting_nodes (Nodo *root){
   }
 }
 
+void free_Tree (Nodo *root){
+  if (root == NULL){
+    return;
+  }
+
+  free_Tree(root->left);
+  free_Tree(root->right);
+  free(root);
+  root = NULL;
+}
+
 int main () {
   int op, start, info;
   int height, quant_nodes;
@@ -205,6 +216,7 @@ int main () {
       break;
 
       case 0:
+        free_Tree(root);
         printf("\nSaindo ...");
       break;
 
