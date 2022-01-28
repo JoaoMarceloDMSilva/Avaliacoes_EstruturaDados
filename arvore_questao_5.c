@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*Não soube como manipular os caracteres (char), armazená-los, removê-los e imprimí-los à mediada que os números são alterados*/
+
 struct player {
   int shirt_num;
   char name[50];
@@ -115,13 +117,22 @@ void remove_player(Player *root, int num){
   }
 }
 
-void to_print (Player *n) {
+void print_in_order (Player *n) {
   if (n == NULL) {
     return;
   }
+  print_in_order(n->left);
   printf("\n%d", n->shirt_num);
-  to_print(n->left);
-  to_print(n->right);
+  print_in_order(n->right);
+}
+
+void print_post_order (Player *n) {
+  if (n == NULL) {
+    return;
+  }
+  print_in_order(n->left);
+  print_in_order(n->right);
+  printf("\n%d", n->shirt_num);
 }
 
 int counting_nodes (Player *root){
@@ -142,7 +153,7 @@ int main () {
   Player *root = create(start);
 
   do{
-    printf("\n\n1 - Adicionar valor\n2 - Imprimir árvore\n3 - Remover um valor\n4 - Achar o maior valor\n5 - Altura da árvore\n6 - Quantidade de nós\n0 - Sair\nOpção: ");
+    printf("\n\n1 - Adicionar valor\n2 - Imprimir Em-ordem\n3 - Imprimir Pós-ordem\n4 - Remover um valor\n0 - Sair\nOpção: ");
     scanf("%d", &op);
     switch(op){
       case 1:
@@ -157,10 +168,14 @@ int main () {
       break;
 
       case 2:
-        to_print(root);
+       print_in_order(root);
       break;
 
       case 3:
+        print_post_order(root);
+      break;
+
+      case 4:
         printf("\nInserir um valor para remover: ");
         scanf("%d", &info);
         remove_player(root, info);
